@@ -1060,35 +1060,25 @@ async function startBot(loginWithEmail) {
                         await stopListening();
                         global.GoatBot.Listening = api.listenMqtt(createCallBackListen());
                         global.GoatBot.callBackListen = callBackListen;
-                        // ——————————————————— UPTIME ——————————————————— //
-                        if (global.GoatBot.config.serverUptime.enable == true && !global.GoatBot.config.dashBoard?.enable && !global.serverUptimeRunning) {
-                                const http = require('http');
-                                const express = require('express');
-                                const app = express();
-                                const server = http.createServer(app);
-                                const { data: html } = await axios.get("https://raw.githubusercontent.com/ntkhang03/resources-goat-bot/master/homepage/home.html");
-                                const PORT = global.GoatBot.config.dashBoard?.port || (!isNaN(global.GoatBot.config.serverUptime.port) && global.GoatBot.config.serverUptime.port) || 3001;
-                                app.get('/', (req, res) => res.send(html));
-                                app.get('/uptime', global.responseUptimeCurrent);
-                                let nameUpTime;
-                                try {
-                                        nameUpTime = `https://${process.env.REPL_OWNER ?
-                                                `${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co` :
-                                                process.env.API_SERVER_EXTERNAL == "https://api.glitch.com" ?
-                                                        `${process.env.PROJECT_DOMAIN}.glitch.me` :
-                                                        `localhost:${PORT}`}`;
-                                        nameUpTime.includes('localhost') && (nameUpTime = nameUpTime.replace('https', 'http'));
-                                        await server.listen(PORT);
-                                        log.info("UPTIME", getText('login', 'openServerUptimeSuccess', nameUpTime));
-                                        if (global.GoatBot.config.serverUptime.socket?.enable == true)
-                                                require('./socketIO.js')(server);
-                                        global.serverUptimeRunning = true;
-                                }
-                                catch (err) {
-                                        log.err("UPTIME", getText('login', 'openServerUptimeError'), err);
-                                }
-                        }
 
+                        // ============================================================
+                        // 🟢 RENDER PORT FIX (Forced Keep-Alive)
+                        // ============================================================
+                        try {
+                                const http = require('http');
+                                const port = process.env.PORT || 3000; // Render sets process.env.PORT automatically
+                                const server = http.createServer((req, res) => {
+                                        res.writeHead(200, { "Content-Type": "text/plain" });
+                                        res.end("Shadow Garden Active - Port Bound Successfully");
+                                });
+                                server.listen(port, () => {
+                                        // Use simple console.log to avoid dependency errors if 'log' isn't defined
+                                        console.log(`\x1b[32m[RENDER]\x1b[0m Server running on port ${port} (Fixed Timeout)`);
+                                });
+                        } catch (err) {
+                                console.error("\x1b[31m[RENDER]\x1b[0m Failed to start keep-alive server", err);
+                        }
+                        // ============================================================
 
                         // ———————————————————— RESTART LISTEN ———————————————————— //
                         if (restartListenMqtt.enable == true) {
