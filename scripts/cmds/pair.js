@@ -11,22 +11,6 @@ module.exports = {
   },
 
   onStart: async function ({ api, event, usersData }) {
-    try {
-      const senderData = await usersData.get(event.senderID);
-      const senderName = senderData.name;
-      // 💰 Require 500 money
-if (!senderData.money || senderData.money < 500) {
-  return api.sendMessage(
-    "Oy Goribs Cmd use er jonno 500tk labe ja tor kase nai 😾",
-    event.threadID,
-    event.messageID
-  );
-}
-
-// Deduct 500 money
-await usersData.set(event.senderID, {
-  money: senderData.money - 500
-});
       const threadData = await api.getThreadInfo(event.threadID);
       const users = threadData.userInfo;
 
