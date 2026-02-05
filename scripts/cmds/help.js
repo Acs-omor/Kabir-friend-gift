@@ -96,7 +96,7 @@ module.exports = {
 		const sortedCategories = Object.keys(categories).sort();
 		
 		let msg = `╭───────────────╮\n`;
-		msg += `│  ☁️ 𝐀𝐋𝐏𝐇𝐀 𝐒𝐘𝐒𝐓𝐄𝐌 ☁️  │\n`;
+		msg += `│  ☁️ HELP MENU ☁️  │\n`;
 		msg += `╰───────────────╯\n`;
 		msg += `👋 𝐇𝐞𝐥𝐥𝐨, ${toFancy(userName)}!\n`;
 		msg += `🤖 𝐂𝐦𝐝𝐬: ${totalCommands}  |  🏷️ 𝐏𝐫𝐞𝐟𝐢𝐱: [ ${prefix} ]\n`;
