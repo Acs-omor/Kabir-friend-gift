@@ -1,19 +1,26 @@
 module.exports = {
   config: {
     name: "fork",
-    aliases: ["repo", "source"],
-    version: "1.0",
-    author: "NeoKEX",
+    aliases: ["repo"],
+    version: "1.1",
+    author: "Aphelion",
     countDown: 3,
     role: 0,
-    longDescription: "Returns the link to the official, updated fork of the bot's repository.",
+    shortDescription: {
+      en: "Get the official GitHub repository link"
+    },
+    longDescription: {
+      en: "Returns the link to the official and up-to-date fork of the Aphelion GoatBot repository."
+    },
     category: "system",
-    guide: { en: "{pn}" }
+    guide: {
+      en: "{pn}"
+    }
   },
 
-  onStart: async function({ message }) {
-    const text = "Nai";
-    
-    message.reply(text);
+  onStart: async ({ message }) => {
+    return message.reply(
+      "🔗 Source Repository:\nhttps://github.com/starboy-aphelionX/Aphelion-GoatBot.git"
+    );
   }
 };
